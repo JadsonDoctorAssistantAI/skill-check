@@ -1,6 +1,25 @@
 import { useState, useEffect } from 'react'
 import hardQuestions from './questions/hard.json'
 import softQuestions from './questions/soft.json'
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+} from 'chart.js'
+import { Radar } from 'react-chartjs-2'
+
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+)
 
 type QuestionType = {
   id: string
@@ -12,6 +31,18 @@ type EvaluationResult = {
   tipoAvaliador: string
   respostas: Record<string, number>
   timestamp: number
+}
+
+type AnalysisData = {
+  autoAvaliacao: string
+  avaliacaoPares: string[]
+  avaliacaoLider: string
+}
+
+type AnalysisPoint = {
+  categoria: string
+  media: number
+  gap: number
 }
 
 function Modal({ isOpen, onClose, children }: { isOpen: boolean, onClose: () => void, children: React.ReactNode }) {
@@ -28,6 +59,28 @@ function Modal({ isOpen, onClose, children }: { isOpen: boolean, onClose: () => 
   )
 }
 
+function Toast({ message, isVisible, onClose }: { message: string, isVisible: boolean, onClose: () => void }) {
+  useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        onClose()
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [isVisible, onClose])
+
+  if (!isVisible) return null
+
+  return (
+    <div className="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-fade-in-up z-50">
+      <svg className="w-5 h-5 text-green-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+        <path d="M5 13l4 4L19 7"></path>
+      </svg>
+      {message}
+    </div>
+  )
+}
+
 function App() {
   const [nome, setNome] = useState<string>('')
   const [tipoAvaliador, setTipoAvaliador] = useState<string>('')
@@ -37,15 +90,151 @@ function App() {
   const [resultHash, setResultHash] = useState<string>('')
   const [showModal, setShowModal] = useState(false)
   const [isAnalysisMode, setIsAnalysisMode] = useState(false)
+  const [analysisData, setAnalysisData] = useState<AnalysisData>({
+    autoAvaliacao: '',
+    avaliacaoPares: [''],
+    avaliacaoLider: ''
+  })
+  const [showResults, setShowResults] = useState(false)
+  const [analysisResults, setAnalysisResults] = useState<any>(null)
   const [hashInput, setHashInput] = useState('')
+  const [showToast, setShowToast] = useState(false)
+  const [novoNome, setNovoNome] = useState('')
+  const [showUrlCopy, setShowUrlCopy] = useState(false)
 
   useEffect(() => {
-    if (!isAnalysisMode) {
-      const params = new URLSearchParams(window.location.search)
-      const nomeParam = params.get('nome')
-      setNome(nomeParam || 'Nome não especificado')
+    const params = new URLSearchParams(window.location.search)
+    const nomeParam = params.get('nome')
+    if (nomeParam) {
+      setNome(nomeParam)
+      setTipoAvaliador('')
+      setShowQuestions(false)
     }
-  }, [isAnalysisMode])
+  }, [])
+
+  const handleStartNewEvaluation = () => {
+    if (novoNome.trim()) {
+      const url = new URL(window.location.href)
+      url.searchParams.set('nome', novoNome.trim())
+      setShowUrlCopy(true)
+      setNome(novoNome.trim())
+      setTipoAvaliador('')
+      setShowQuestions(false)
+    }
+  }
+
+  const goToAnalysis = () => {
+    setIsAnalysisMode(true)
+    setShowQuestions(false)
+    setTipoAvaliador('')
+    setNome('')
+  }
+
+  if (!nome && !isAnalysisMode) {
+    return (
+      <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-white rounded-lg shadow-lg p-8">
+            <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
+              Avaliação de Habilidades
+            </h1>
+
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h2 className="text-xl font-semibold text-gray-800 text-center">
+                  O que você deseja fazer?
+                </h2>
+
+                <div className="space-y-6 mt-8">
+                  <div className="p-6 bg-blue-50 rounded-lg border border-blue-100">
+                    <h3 className="text-lg font-medium text-blue-900 mb-4">
+                      Iniciar Nova Avaliação
+                    </h3>
+                    <div className="space-y-4">
+                      <input
+                        type="text"
+                        placeholder="Digite o nome do avaliado"
+                        value={novoNome}
+                        onChange={(e) => setNovoNome(e.target.value)}
+                        className="w-full p-2 border rounded"
+                      />
+                      <button
+                        onClick={handleStartNewEvaluation}
+                        disabled={!novoNome.trim()}
+                        className={`w-full py-2 px-4 rounded-md font-medium ${novoNome.trim()
+                          ? 'bg-blue-600 text-white hover:bg-blue-700'
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                          }`}
+                      >
+                        Gerar Link de Avaliação
+                      </button>
+                    </div>
+
+                    {showUrlCopy && (
+                      <div className="mt-4 p-4 bg-white rounded-lg border">
+                        <p className="text-sm text-gray-600 mb-2">
+                          Compartilhe este link para coletar as avaliações:
+                        </p>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            readOnly
+                            value={`${window.location.origin}${window.location.pathname}?nome=${encodeURIComponent(novoNome.trim())}`}
+                            className="flex-1 p-2 text-sm bg-gray-50 border rounded"
+                          />
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}?nome=${encodeURIComponent(novoNome.trim())}`)
+                              setShowToast(true)
+                            }}
+                            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                          >
+                            Copiar
+                          </button>
+                        </div>
+                        <div className="mt-4 flex justify-end">
+                          <button
+                            onClick={() => {
+                              setTipoAvaliador('')
+                              setShowQuestions(true)
+                            }}
+                            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                          >
+                            Iniciar Avaliação →
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                    <h3 className="text-lg font-medium text-gray-900 mb-4">
+                      Analisar Avaliações
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      Compare diferentes avaliações e veja análises detalhadas.
+                    </p>
+                    <button
+                      onClick={goToAnalysis}
+                      className="w-full py-2 px-4 bg-gray-800 text-white rounded-md font-medium hover:bg-gray-900"
+                    >
+                      Ir para Análise
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <Toast
+          message="Link copiado com sucesso!"
+          isVisible={showToast}
+          onClose={() => setShowToast(false)}
+        />
+      </div>
+    )
+  }
 
   const generateEvaluationHash = () => {
     const result: EvaluationResult = {
@@ -156,7 +345,329 @@ function App() {
     }
   }
 
-  if (!showQuestions) {
+  const addPeerField = () => {
+    setAnalysisData(prev => ({
+      ...prev,
+      avaliacaoPares: [...prev.avaliacaoPares, '']
+    }))
+  }
+
+  const updatePeerHash = (index: number, value: string) => {
+    setAnalysisData(prev => ({
+      ...prev,
+      avaliacaoPares: prev.avaliacaoPares.map((hash, i) =>
+        i === index ? value : hash
+      )
+    }))
+  }
+
+  const removePeerField = (index: number) => {
+    setAnalysisData(prev => ({
+      ...prev,
+      avaliacaoPares: prev.avaliacaoPares.filter((_, i) => i !== index)
+    }))
+  }
+
+  const calculateCategoryAverage = (respostas: Record<string, number>, categoria: string) => {
+    const questoesDaCategoria = Object.entries(respostas)
+      .filter(([key]) => key.startsWith(categoria))
+
+    if (questoesDaCategoria.length === 0) return 0
+
+    return questoesDaCategoria.reduce((acc, [_, value]) => acc + value, 0) / questoesDaCategoria.length
+  }
+
+  const generateAnalysis = () => {
+    try {
+      const autoAvaliacao = analysisData.autoAvaliacao ?
+        decodeEvaluationHash(analysisData.autoAvaliacao) : null
+
+      const avaliacoesPares = analysisData.avaliacaoPares
+        .filter(hash => hash)
+        .map(hash => decodeEvaluationHash(hash))
+
+      const avaliacaoLider = analysisData.avaliacaoLider ?
+        decodeEvaluationHash(analysisData.avaliacaoLider) : null
+
+      const categorias = [
+        'technical', 'code', 'delivery', 'problem', 'system',
+        'communication', 'collaboration', 'adaptability', 'initiative', 'empathy'
+      ]
+
+      const mediaPares = categorias.reduce((acc, categoria) => {
+        const mediaCategoria = avaliacoesPares.length > 0 ?
+          avaliacoesPares.reduce((sum, aval) =>
+            sum + calculateCategoryAverage(aval.respostas, categoria), 0
+          ) / avaliacoesPares.length : 0
+
+        return { ...acc, [categoria]: mediaCategoria }
+      }, {} as Record<string, number>)
+
+      const results = {
+        labels: [
+          'Conhecimento Técnico',
+          'Qualidade de Código',
+          'Entrega',
+          'Resolução de Problemas',
+          'Visão Sistêmica',
+          'Comunicação',
+          'Colaboração',
+          'Adaptabilidade',
+          'Iniciativa',
+          'Empatia'
+        ],
+        datasets: [
+          {
+            label: 'Auto-avaliação',
+            data: categorias.map(cat =>
+              autoAvaliacao ? calculateCategoryAverage(autoAvaliacao.respostas, cat) : 0
+            ),
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgb(54, 162, 235)',
+            borderWidth: 1
+          },
+          {
+            label: 'Média dos Pares',
+            data: categorias.map(cat => mediaPares[cat]),
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgb(255, 99, 132)',
+            borderWidth: 1
+          },
+          {
+            label: 'Avaliação do Líder',
+            data: categorias.map(cat =>
+              avaliacaoLider ? calculateCategoryAverage(avaliacaoLider.respostas, cat) : 0
+            ),
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 1
+          }
+        ]
+      }
+
+      const pontosFortesEMelhorias = categorias.map((categoria, index) => {
+        const mediaGeral = (
+          (autoAvaliacao ? calculateCategoryAverage(autoAvaliacao.respostas, categoria) : 0) +
+          mediaPares[categoria] +
+          (avaliacaoLider ? calculateCategoryAverage(avaliacaoLider.respostas, categoria) : 0)
+        ) / (
+            (autoAvaliacao ? 1 : 0) +
+            (avaliacoesPares.length > 0 ? 1 : 0) +
+            (avaliacaoLider ? 1 : 0)
+          )
+
+        return {
+          categoria: results.labels[index],
+          media: mediaGeral,
+          gap: autoAvaliacao ?
+            calculateCategoryAverage(autoAvaliacao.respostas, categoria) - mediaGeral : 0
+        }
+      }).sort((a, b) => b.media - a.media)
+
+      setAnalysisResults({
+        chartData: results,
+        pontosFortesEMelhorias
+      })
+      setShowResults(true)
+
+    } catch (error) {
+      alert('Erro ao processar os dados. Verifique se os códigos estão corretos.')
+      console.error(error)
+    }
+  }
+
+  if (isAnalysisMode) {
+    if (showResults && analysisResults) {
+      return (
+        <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="bg-white rounded-lg shadow-lg p-8">
+              <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
+                Análise Comparativa
+              </h1>
+
+              <div className="mb-12">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+                  Comparativo Geral
+                </h2>
+                <div className="w-full h-[600px]">
+                  <Radar
+                    data={analysisResults.chartData}
+                    options={{
+                      scales: {
+                        r: {
+                          beginAtZero: true,
+                          max: 5,
+                          ticks: {
+                            stepSize: 1
+                          }
+                        }
+                      },
+                      plugins: {
+                        legend: {
+                          position: 'top' as const
+                        }
+                      },
+                      maintainAspectRatio: false
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    Pontos Fortes
+                  </h2>
+                  <div className="space-y-2">
+                    {analysisResults.pontosFortesEMelhorias.slice(0, 3).map((ponto: AnalysisPoint) => (
+                      <div
+                        key={ponto.categoria}
+                        className="p-4 bg-green-50 rounded-lg border border-green-200"
+                      >
+                        <p className="font-medium text-green-800">{ponto.categoria}</p>
+                        <p className="text-sm text-green-600">Média: {ponto.media.toFixed(2)}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    Pontos de Melhoria
+                  </h2>
+                  <div className="space-y-2">
+                    {analysisResults.pontosFortesEMelhorias.slice(-3).reverse().map((ponto: AnalysisPoint) => (
+                      <div
+                        key={ponto.categoria}
+                        className="p-4 bg-red-50 rounded-lg border border-red-200"
+                      >
+                        <p className="font-medium text-red-800">{ponto.categoria}</p>
+                        <p className="text-sm text-red-600">Média: {ponto.media.toFixed(2)}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 flex justify-end">
+                <button
+                  onClick={() => setShowResults(false)}
+                  className="px-6 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                >
+                  Voltar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    return (
+      <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white rounded-lg shadow-lg p-8">
+            <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
+              Análise Comparativa de Avaliações
+            </h1>
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Adicione os códigos das avaliações
+                </h2>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Auto-avaliação
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Cole o código da auto-avaliação"
+                      className="w-full p-2 border rounded"
+                      value={analysisData.autoAvaliacao}
+                      onChange={(e) => setAnalysisData(prev => ({
+                        ...prev,
+                        autoAvaliacao: e.target.value
+                      }))}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Avaliação dos Pares
+                    </label>
+                    <div className="space-y-2">
+                      {analysisData.avaliacaoPares.map((hash, index) => (
+                        <div key={index} className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder={`Cole o código da avaliação do par ${index + 1}`}
+                            className="flex-1 p-2 border rounded"
+                            value={hash}
+                            onChange={(e) => updatePeerHash(index, e.target.value)}
+                          />
+                          {index > 0 && (
+                            <button
+                              onClick={() => removePeerField(index)}
+                              className="px-3 py-2 text-red-600 hover:text-red-700"
+                            >
+                              Remover
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                      <button
+                        onClick={addPeerField}
+                        className="text-sm text-blue-600 hover:text-blue-700"
+                      >
+                        + Adicionar outro par
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Avaliação do Líder
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Cole o código da avaliação do líder"
+                      className="w-full p-2 border rounded"
+                      value={analysisData.avaliacaoLider}
+                      onChange={(e) => setAnalysisData(prev => ({
+                        ...prev,
+                        avaliacaoLider: e.target.value
+                      }))}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between">
+                <button
+                  onClick={() => {
+                    setIsAnalysisMode(false)
+                    setShowQuestions(false)
+                    setTipoAvaliador('')
+                    setNome('')
+                  }}
+                  className="px-6 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                >
+                  Voltar
+                </button>
+                <button
+                  onClick={generateAnalysis}
+                  className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  Gerar Análise
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (!showQuestions || !tipoAvaliador) {
     return (
       <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
@@ -281,7 +792,7 @@ function App() {
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(resultHash)
-                    alert('Código copiado!')
+                    setShowToast(true)
                   }}
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 >
@@ -303,79 +814,12 @@ function App() {
                 </button>
               </div>
             </Modal>
-          </div>
-        </div>
-      </div>
-    )
-  }
 
-  if (isAnalysisMode) {
-    return (
-      <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
-              Análise Comparativa de Avaliações
-            </h1>
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold text-gray-800">
-                  Adicione os códigos das avaliações
-                </h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Auto-avaliação
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Cole o código da auto-avaliação"
-                      className="w-full p-2 border rounded"
-                      value={hashInput}
-                      onChange={(e) => setHashInput(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Avaliação dos Pares
-                    </label>
-                    <div className="space-y-2">
-                      <input
-                        type="text"
-                        placeholder="Cole o código da avaliação do par 1"
-                        className="w-full p-2 border rounded"
-                      />
-                      <button className="text-sm text-blue-600 hover:text-blue-700">
-                        + Adicionar outro par
-                      </button>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Avaliação do Líder
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Cole o código da avaliação do líder"
-                      className="w-full p-2 border rounded"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <button
-                  onClick={() => setIsAnalysisMode(false)}
-                  className="px-6 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
-                >
-                  Voltar
-                </button>
-                <button
-                  className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                  Gerar Análise
-                </button>
-              </div>
-            </div>
+            <Toast
+              message="Código copiado com sucesso!"
+              isVisible={showToast}
+              onClose={() => setShowToast(false)}
+            />
           </div>
         </div>
       </div>
