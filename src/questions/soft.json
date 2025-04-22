@@ -1,0 +1,317 @@
+{
+  "communication": {
+    "label": "Comunicação",
+    "self": {
+      "questions": [
+        {
+          "id": "communication_1",
+          "label": "Consigo me expressar claramente e de forma objetiva."
+        },
+        {
+          "id": "communication_2",
+          "label": "Estou aberto a receber feedbacks e sugestões."
+        },
+        {
+          "id": "communication_3",
+          "label": "Faço perguntas quando tenho dúvidas e me certifico de compreender os requisitos."
+        },
+        {
+          "id": "communication_4",
+          "label": "Adapto minha comunicação de acordo com a audiência (time, stakeholders, clientes)."
+        }
+      ]
+    },
+    "peers": {
+      "questions": [
+        {
+          "id": "communication_1",
+          "label": "Comunique-se de forma clara e objetiva com o time."
+        },
+        {
+          "id": "communication_2",
+          "label": "Recebe feedbacks de forma construtiva e busca melhorar a comunicação."
+        },
+        {
+          "id": "communication_3",
+          "label": "Faz perguntas para esclarecer dúvidas, garantindo que entenda as tarefas."
+        },
+        {
+          "id": "communication_4",
+          "label": "Adapta a forma de se comunicar conforme o público ou situação."
+        }
+      ]
+    },
+    "leadership": {
+      "questions": [
+        {
+          "id": "communication_1",
+          "label": "Comunica de forma clara e eficiente, ajustando o nível de detalhe conforme necessário."
+        },
+        {
+          "id": "communication_2",
+          "label": "Demonstra boa capacidade de escuta ativa e feedback construtivo."
+        },
+        {
+          "id": "communication_3",
+          "label": "É proativo ao esclarecer dúvidas e assegurar que o time tenha as informações necessárias."
+        },
+        {
+          "id": "communication_4",
+          "label": "Adapta o estilo de comunicação de acordo com os diferentes stakeholders e o contexto."
+        }
+      ]
+    }
+  },
+  "collaboration": {
+    "label": "Colaboração",
+    "self": {
+      "questions": [
+        {
+          "id": "collaboration_1",
+          "label": "Trabalho bem em equipe, oferecendo ajuda quando necessário."
+        },
+        {
+          "id": "collaboration_2",
+          "label": "Participo ativamente das discussões e procuro contribuir com soluções."
+        },
+        {
+          "id": "collaboration_3",
+          "label": "Valorizo e respeito as opiniões e habilidades dos outros."
+        },
+        {
+          "id": "collaboration_4",
+          "label": "Quando há conflitos, busco resolvê-los de forma construtiva."
+        }
+      ]
+    },
+    "peers": {
+      "questions": [
+        {
+          "id": "collaboration_1",
+          "label": "Trabalha bem em equipe, oferecendo suporte sempre que possível."
+        },
+        {
+          "id": "collaboration_2",
+          "label": "Contribui ativamente para o time e ajuda a resolver problemas."
+        },
+        {
+          "id": "collaboration_3",
+          "label": "Valoriza a diversidade de opiniões e respeita os colegas."
+        },
+        {
+          "id": "collaboration_4",
+          "label": "Lida com conflitos de forma madura e construtiva."
+        }
+      ]
+    },
+    "leadership": {
+      "questions": [
+        {
+          "id": "collaboration_1",
+          "label": "Fomenta um ambiente colaborativo, incentivando o trabalho em equipe."
+        },
+        {
+          "id": "collaboration_2",
+          "label": "Participa ativamente de discussões e auxilia na resolução de problemas complexos."
+        },
+        {
+          "id": "collaboration_3",
+          "label": "Promove um ambiente de respeito e apreciação das diversas habilidades e experiências."
+        },
+        {
+          "id": "collaboration_4",
+          "label": "Lida com conflitos de forma eficiente, incentivando uma resolução construtiva."
+        }
+      ]
+    }
+  },
+  "adaptability": {
+    "label": "Adaptabilidade",
+    "self": {
+      "questions": [
+        {
+          "id": "adaptability_1",
+          "label": "Me adapto facilmente a mudanças nas prioridades e nos processos."
+        },
+        {
+          "id": "adaptability_2",
+          "label": "Quando algo não sai como esperado, sou capaz de ajustar minha abordagem rapidamente."
+        },
+        {
+          "id": "adaptability_3",
+          "label": "Estou disposto a aprender novas abordagens e a me desenvolver conforme a necessidade do time."
+        },
+        {
+          "id": "adaptability_4",
+          "label": "Reajo bem ao feedback e ajusto meu comportamento ou métodos quando necessário."
+        }
+      ]
+    },
+    "peers": {
+      "questions": [
+        {
+          "id": "adaptability_1",
+          "label": "É flexível e se adapta rapidamente às mudanças de demandas."
+        },
+        {
+          "id": "adaptability_2",
+          "label": "Consegue ajustar sua abordagem quando as coisas não saem como esperado."
+        },
+        {
+          "id": "adaptability_3",
+          "label": "Demonstra vontade de aprender e se adaptar às novas necessidades do time."
+        },
+        {
+          "id": "adaptability_4",
+          "label": "Recebe feedbacks de forma construtiva e faz ajustes de comportamento quando necessário."
+        }
+      ]
+    },
+    "leadership": {
+      "questions": [
+        {
+          "id": "adaptability_1",
+          "label": "Ajuda o time a se adaptar a mudanças de forma tranquila e eficiente."
+        },
+        {
+          "id": "adaptability_2",
+          "label": "Ensina o time a ser flexível e a ajustar suas abordagens diante de novos desafios."
+        },
+        {
+          "id": "adaptability_3",
+          "label": "Está sempre atento às necessidades do time, incentivando o aprendizado e a adaptação."
+        },
+        {
+          "id": "adaptability_4",
+          "label": "Demonstra flexibilidade e capacidade de liderança ao lidar com mudanças."
+        }
+      ]
+    }
+  },
+  "initiative": {
+    "label": "Iniciativa",
+    "self": {
+      "questions": [
+        {
+          "id": "initiative_1",
+          "label": "Proponho melhorias para processos e soluções do time."
+        },
+        {
+          "id": "initiative_2",
+          "label": "Tomo a frente de tarefas quando vejo oportunidades de agregar valor."
+        },
+        {
+          "id": "initiative_3",
+          "label": "Sou proativo ao identificar problemas e busco soluções sem precisar ser solicitado."
+        },
+        {
+          "id": "initiative_4",
+          "label": "Tenho a disposição de fazer mais do que o esperado quando necessário."
+        }
+      ]
+    },
+    "peers": {
+      "questions": [
+        {
+          "id": "initiative_1",
+          "label": "Sempre sugere melhorias e propostas que agregam valor ao time."
+        },
+        {
+          "id": "initiative_2",
+          "label": "Toma a frente de atividades quando percebe a necessidade ou oportunidade."
+        },
+        {
+          "id": "initiative_3",
+          "label": "Demonstra proatividade em resolver problemas antes que se tornem críticos."
+        },
+        {
+          "id": "initiative_4",
+          "label": "Está disposto a fazer mais do que o esperado para contribuir com o time."
+        }
+      ]
+    },
+    "leadership": {
+      "questions": [
+        {
+          "id": "initiative_1",
+          "label": "Incentiva o time a ser proativo e a sugerir melhorias no processo."
+        },
+        {
+          "id": "initiative_2",
+          "label": "Mostra liderança ao tomar a frente em momentos críticos ou de incerteza."
+        },
+        {
+          "id": "initiative_3",
+          "label": "Fomenta uma cultura de resolução de problemas proativa dentro do time."
+        },
+        {
+          "id": "initiative_4",
+          "label": "Incentiva o time a ir além das expectativas para atingir os objetivos."
+        }
+      ]
+    }
+  },
+  "empathy": {
+    "label": "Empatia",
+    "self": {
+      "questions": [
+        {
+          "id": "empathy_1",
+          "label": "Escuto atentamente as preocupações e ideias dos outros."
+        },
+        {
+          "id": "empathy_2",
+          "label": "Estou atento às necessidades e sentimentos dos colegas de time."
+        },
+        {
+          "id": "empathy_3",
+          "label": "Considero o ponto de vista dos outros antes de agir ou tomar decisões."
+        },
+        {
+          "id": "empathy_4",
+          "label": "Apoio meus colegas de time quando eles enfrentam dificuldades."
+        }
+      ]
+    },
+    "peers": {
+      "questions": [
+        {
+          "id": "empathy_1",
+          "label": "Escuta com atenção e mostra preocupação genuína pelos outros."
+        },
+        {
+          "id": "empathy_2",
+          "label": "Tem uma abordagem sensível e respeitosa com os colegas."
+        },
+        {
+          "id": "empathy_3",
+          "label": "Considera as perspectivas dos outros antes de tomar decisões."
+        },
+        {
+          "id": "empathy_4",
+          "label": "Apoia e oferece ajuda quando colegas estão passando por dificuldades."
+        }
+      ]
+    },
+    "leadership": {
+      "questions": [
+        {
+          "id": "empathy_1",
+          "label": "Demonstra empatia nas interações com o time e busca apoiar os colegas."
+        },
+        {
+          "id": "empathy_2",
+          "label": "Está atento às necessidades emocionais e profissionais do time."
+        },
+        {
+          "id": "empathy_3",
+          "label": "Mostra sensibilidade nas tomadas de decisão, considerando o impacto no time."
+        },
+        {
+          "id": "empathy_4",
+          "label": "Fomenta um ambiente de apoio mútuo e cuidado entre os membros do time."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,317 @@
+{
+  "technical_knowledge": {
+    "label": "Conhecimento Técnico",
+    "self": {
+      "questions": [
+        {
+          "id": "technical_1",
+          "label": "Domino as tecnologias usadas pelo time e consigo aplicá-las com autonomia no dia a dia."
+        },
+        {
+          "id": "technical_2",
+          "label": "Tenho facilidade em aprender novas tecnologias quando necessário."
+        },
+        {
+          "id": "technical_3",
+          "label": "Entendo as decisões arquiteturais do projeto em que atuo."
+        },
+        {
+          "id": "technical_4",
+          "label": "Conheço e aplico padrões de projeto adotados pela equipe."
+        }
+      ]
+    },
+    "peers": {
+      "questions": [
+        {
+          "id": "technical_1",
+          "label": "Demonstra domínio prático das tecnologias utilizadas no time."
+        },
+        {
+          "id": "technical_2",
+          "label": "Aprende e aplica novas ferramentas com facilidade."
+        },
+        {
+          "id": "technical_3",
+          "label": "Compreende as decisões técnicas e participa de discussões com bons argumentos."
+        },
+        {
+          "id": "technical_4",
+          "label": "Compartilha conhecimento técnico com o time quando necessário."
+        }
+      ]
+    },
+    "leadership": {
+      "questions": [
+        {
+          "id": "technical_1",
+          "label": "Apresenta domínio técnico adequado ao nível pleno."
+        },
+        {
+          "id": "technical_2",
+          "label": "Aprende novas tecnologias com independência e aplica com segurança."
+        },
+        {
+          "id": "technical_3",
+          "label": "Contribui com decisões técnicas do time de forma sólida."
+        },
+        {
+          "id": "technical_4",
+          "label": "Apoia o crescimento técnico da equipe com suas contribuições."
+        }
+      ]
+    }
+  },
+  "code_quality": {
+    "label": "Qualidade de Código",
+    "self": {
+      "questions": [
+        {
+          "id": "code_1",
+          "label": "Escrevo código limpo, legível e com boas práticas de desenvolvimento."
+        },
+        {
+          "id": "code_2",
+          "label": "Reviso meu código antes de abrir um pull request, buscando qualidade e clareza."
+        },
+        {
+          "id": "code_3",
+          "label": "Tenho atenção à cobertura de testes e automatizações."
+        },
+        {
+          "id": "code_4",
+          "label": "Evito débitos técnicos e busco constantemente melhorar o código legado."
+        }
+      ]
+    },
+    "peers": {
+      "questions": [
+        {
+          "id": "code_1",
+          "label": "Entrega código limpo, legível e aderente às boas práticas."
+        },
+        {
+          "id": "code_2",
+          "label": "Abre pull requests bem organizados e de fácil entendimento."
+        },
+        {
+          "id": "code_3",
+          "label": "Entrega código com testes adequados e confiáveis."
+        },
+        {
+          "id": "code_4",
+          "label": "Cuida da saúde do código, propondo melhorias e evitando débitos técnicos."
+        }
+      ]
+    },
+    "leadership": {
+      "questions": [
+        {
+          "id": "code_1",
+          "label": "Mantém consistência na qualidade de código esperado para o nível pleno."
+        },
+        {
+          "id": "code_2",
+          "label": "Garante a entrega de código revisado, testado e aderente aos padrões."
+        },
+        {
+          "id": "code_3",
+          "label": "Contribui para a maturidade dos testes e qualidade técnica do time."
+        },
+        {
+          "id": "code_4",
+          "label": "Zela pela manutenção do código e atua na redução de débitos técnicos."
+        }
+      ]
+    }
+  },
+  "delivery": {
+    "label": "Entrega e Comprometimento",
+    "self": {
+      "questions": [
+        {
+          "id": "delivery_1",
+          "label": "Entrego tarefas no prazo e com qualidade."
+        },
+        {
+          "id": "delivery_2",
+          "label": "Compreendo bem o escopo das minhas entregas."
+        },
+        {
+          "id": "delivery_3",
+          "label": "Sigo processos acordados e comunico atrasos ou bloqueios."
+        },
+        {
+          "id": "delivery_4",
+          "label": "Tenho senso de responsabilidade e compromisso com o time."
+        }
+      ]
+    },
+    "peers": {
+      "questions": [
+        {
+          "id": "delivery_1",
+          "label": "Entrega tarefas com consistência e dentro do prazo."
+        },
+        {
+          "id": "delivery_2",
+          "label": "Entende o escopo das entregas e atua com clareza."
+        },
+        {
+          "id": "delivery_3",
+          "label": "Segue o processo e mantém o time informado sobre seu progresso."
+        },
+        {
+          "id": "delivery_4",
+          "label": "Demonstra comprometimento com o time e com o produto."
+        }
+      ]
+    },
+    "leadership": {
+      "questions": [
+        {
+          "id": "delivery_1",
+          "label": "Entrega o que se compromete com qualidade e previsibilidade."
+        },
+        {
+          "id": "delivery_2",
+          "label": "Tem entendimento claro sobre escopo e planejamento das tarefas."
+        },
+        {
+          "id": "delivery_3",
+          "label": "Demonstra organização e responsabilidade em suas entregas."
+        },
+        {
+          "id": "delivery_4",
+          "label": "Assume responsabilidades e tem comprometimento com o time."
+        }
+      ]
+    }
+  },
+  "problem_solving": {
+    "label": "Resolução de Problemas",
+    "self": {
+      "questions": [
+        {
+          "id": "problem_1",
+          "label": "Sou capaz de identificar causas-raiz de problemas técnicos."
+        },
+        {
+          "id": "problem_2",
+          "label": "Consigo propor e testar soluções viáveis para problemas do dia a dia."
+        },
+        {
+          "id": "problem_3",
+          "label": "Sei quando escalar ou pedir ajuda para evitar retrabalho."
+        },
+        {
+          "id": "problem_4",
+          "label": "Aprendo com erros e evito repeti-los."
+        }
+      ]
+    },
+    "peers": {
+      "questions": [
+        {
+          "id": "problem_1",
+          "label": "Identifica bem a causa dos problemas técnicos enfrentados."
+        },
+        {
+          "id": "problem_2",
+          "label": "Proporciona soluções práticas e eficientes para os desafios do time."
+        },
+        {
+          "id": "problem_3",
+          "label": "Pede ajuda de forma adequada e colabora para encontrar soluções."
+        },
+        {
+          "id": "problem_4",
+          "label": "Mostra aprendizado com os erros e evolui constantemente."
+        }
+      ]
+    },
+    "leadership": {
+      "questions": [
+        {
+          "id": "problem_1",
+          "label": "Diagnostica problemas técnicos com clareza e assertividade."
+        },
+        {
+          "id": "problem_2",
+          "label": "Propõe soluções viáveis, sustentáveis e alinhadas ao negócio."
+        },
+        {
+          "id": "problem_3",
+          "label": "Lida bem com situações complexas e sabe quando envolver outras pessoas."
+        },
+        {
+          "id": "problem_4",
+          "label": "Tem postura de aprendizado contínuo e evolução a partir de erros."
+        }
+      ]
+    }
+  },
+  "system_thinking": {
+    "label": "Visão Sistêmica",
+    "self": {
+      "questions": [
+        {
+          "id": "system_1",
+          "label": "Compreendo como minhas entregas impactam o sistema como um todo."
+        },
+        {
+          "id": "system_2",
+          "label": "Tenho noção de performance, segurança e escalabilidade nas minhas decisões técnicas."
+        },
+        {
+          "id": "system_3",
+          "label": "Consigo antecipar problemas que podem surgir com mudanças no sistema."
+        },
+        {
+          "id": "system_4",
+          "label": "Entendo os impactos das minhas ações em outras áreas e nos usuários."
+        }
+      ]
+    },
+    "peers": {
+      "questions": [
+        {
+          "id": "system_1",
+          "label": "Demonstra entender o impacto das suas entregas no produto como um todo."
+        },
+        {
+          "id": "system_2",
+          "label": "Considera aspectos como performance, segurança e manutenção nas decisões."
+        },
+        {
+          "id": "system_3",
+          "label": "Antecipadamente identifica riscos de alterações no sistema."
+        },
+        {
+          "id": "system_4",
+          "label": "Conecta seu trabalho com os objetivos maiores do produto e do time."
+        }
+      ]
+    },
+    "leadership": {
+      "questions": [
+        {
+          "id": "system_1",
+          "label": "Possui boa compreensão do sistema e age com consciência de impacto."
+        },
+        {
+          "id": "system_2",
+          "label": "Decisões técnicas mostram visão de longo prazo, considerando segurança e escalabilidade."
+        },
+        {
+          "id": "system_3",
+          "label": "Identifica riscos e dependências técnicas de forma proativa."
+        },
+        {
+          "id": "system_4",
+          "label": "Entende os objetivos do negócio e alinha sua atuação com eles."
+        }
+      ]
+    }
+  }
+}
