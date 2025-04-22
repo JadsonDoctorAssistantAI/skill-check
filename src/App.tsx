@@ -116,10 +116,20 @@ function App() {
     if (novoNome.trim()) {
       const url = new URL(window.location.href)
       url.searchParams.set('nome', novoNome.trim())
-      setShowUrlCopy(true)
-      setNome(novoNome.trim())
-      setTipoAvaliador('')
-      setShowQuestions(false)
+      const fullUrl = `${window.location.origin}${window.location.pathname}?nome=${encodeURIComponent(novoNome.trim())}`
+
+      navigator.clipboard.writeText(fullUrl)
+        .then(() => {
+          setShowToast(true)
+          // setNome(novoNome.trim())
+          // setTipoAvaliador('')
+          // setShowQuestions(false)
+          setShowUrlCopy(true)
+        })
+        .catch(err => {
+          console.error('Erro ao copiar para a área de transferência:', err)
+          alert('Não foi possível copiar o link automaticamente. Por favor, copie manualmente.')
+        })
     }
   }
 
@@ -146,8 +156,8 @@ function App() {
                 </h2>
 
                 <div className="space-y-6 mt-8">
-                  <div className="p-6 bg-blue-50 rounded-lg border border-blue-100">
-                    <h3 className="text-lg font-medium text-blue-900 mb-4">
+                  <div className="p-6 bg-cyan-50 rounded-lg border border-cyan-100">
+                    <h3 className="text-lg font-medium text-cyan-900 mb-4">
                       Iniciar Nova Avaliação
                     </h3>
                     <div className="space-y-4">
@@ -162,7 +172,7 @@ function App() {
                         onClick={handleStartNewEvaluation}
                         disabled={!novoNome.trim()}
                         className={`w-full py-2 px-4 rounded-md font-medium ${novoNome.trim()
-                          ? 'bg-blue-600 text-white hover:bg-blue-700'
+                          ? 'bg-cyan-600 text-white hover:bg-cyan-700'
                           : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                           }`}
                       >
@@ -187,20 +197,9 @@ function App() {
                               navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}?nome=${encodeURIComponent(novoNome.trim())}`)
                               setShowToast(true)
                             }}
-                            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                            className="px-4 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700"
                           >
                             Copiar
-                          </button>
-                        </div>
-                        <div className="mt-4 flex justify-end">
-                          <button
-                            onClick={() => {
-                              setTipoAvaliador('')
-                              setShowQuestions(true)
-                            }}
-                            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                          >
-                            Iniciar Avaliação →
                           </button>
                         </div>
                       </div>
@@ -300,7 +299,7 @@ function App() {
             key={rating}
             onClick={() => handleRatingChange(questionId, rating)}
             className={`w-10 h-10 cursor-pointer rounded-full ${answers[questionId] === rating
-              ? 'bg-blue-600 text-white'
+              ? 'bg-cyan-600 text-white'
               : 'bg-gray-200 hover:bg-gray-300'
               } flex items-center justify-center font-medium transition-colors`}
           >
@@ -618,7 +617,7 @@ function App() {
                       ))}
                       <button
                         onClick={addPeerField}
-                        className="text-sm text-blue-600 hover:text-blue-700"
+                        className="text-sm text-cyan-600 hover:text-cyan-700"
                       >
                         + Adicionar outro par
                       </button>
@@ -655,7 +654,7 @@ function App() {
                 </button>
                 <button
                   onClick={generateAnalysis}
-                  className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  className="px-6 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700"
                 >
                   Gerar Análise
                 </button>
@@ -685,8 +684,8 @@ function App() {
                 <button
                   onClick={() => setTipoAvaliador('avaliado')}
                   className={`p-4 rounded-lg border-2 transition-all cursor-pointer ${tipoAvaliador === 'avaliado'
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-blue-300'
+                    ? 'border-cyan-500 bg-cyan-50'
+                    : 'border-gray-200 hover:border-cyan-300'
                     }`}
                 >
                   <p className="font-medium text-lg">Sou o(a) {nome}</p>
@@ -695,8 +694,8 @@ function App() {
                 <button
                   onClick={() => setTipoAvaliador('par')}
                   className={`p-4 rounded-lg border-2 transition-all cursor-pointer ${tipoAvaliador === 'par'
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-blue-300'
+                    ? 'border-cyan-500 bg-cyan-50'
+                    : 'border-gray-200 hover:border-cyan-300'
                     }`}
                 >
                   <p className="font-medium text-lg">Sou um(a) dos pares da {nome}</p>
@@ -705,8 +704,8 @@ function App() {
                 <button
                   onClick={() => setTipoAvaliador('lider')}
                   className={`p-4 rounded-lg border-2 transition-all cursor-pointer ${tipoAvaliador === 'lider'
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-blue-300'
+                    ? 'border-cyan-500 bg-cyan-50'
+                    : 'border-gray-200 hover:border-cyan-300'
                     }`}
                 >
                   <p className="font-medium text-lg">Sou o(a) líder da {nome}</p>
@@ -717,7 +716,7 @@ function App() {
                 <div className="mt-8 text-center">
                   <button
                     onClick={() => setShowQuestions(true)}
-                    className="bg-blue-600 w-full cursor-pointer text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                    className="bg-cyan-600 w-full cursor-pointer text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-700 transition-colors"
                   >
                     Continuar
                   </button>
@@ -751,7 +750,7 @@ function App() {
                     {category.questions.map(question => (
                       <div key={question.id} className="flex items-center justify-between">
                         <p className="text-gray-700">{question.label}</p>
-                        <span className="font-bold text-blue-600">
+                        <span className="font-bold text-cyan-600">
                           Nota: {answers[question.id]}
                         </span>
                       </div>
@@ -768,7 +767,7 @@ function App() {
                 Voltar
               </button>
               <button
-                className="bg-blue-600 cursor-pointer w-1/2 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                className="bg-cyan-600 cursor-pointer w-1/2 text-white px-8 py-3 rounded-lg font-medium hover:bg-cyan-700 transition-colors"
                 onClick={handleFinishEvaluation}
               >
                 Finalizar Avaliação
@@ -794,7 +793,7 @@ function App() {
                     navigator.clipboard.writeText(resultHash)
                     setShowToast(true)
                   }}
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  className="px-4 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700"
                 >
                   Copiar
                 </button>
@@ -808,7 +807,7 @@ function App() {
                     setCurrentStage(0)
                     setAnswers({})
                   }}
-                  className="px-4 py-2 text-blue-600 hover:text-blue-700"
+                  className="px-4 py-2 text-cyan-600 hover:text-cyan-700"
                 >
                   Ir para Análise Comparativa
                 </button>
@@ -841,7 +840,7 @@ function App() {
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
-                className="bg-blue-600 h-2 rounded-full transition-all"
+                className="bg-cyan-600 h-2 rounded-full transition-all"
                 style={{ width: `${((currentStage + 1) / allCategories.length) * 100}%` }}
               />
             </div>
@@ -868,7 +867,7 @@ function App() {
               onClick={handleNext}
               disabled={!isCurrentCategoryComplete()}
               className={`w-1/2 cursor-pointer px-8 py-3 rounded-lg font-medium transition-colors ${isCurrentCategoryComplete()
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                ? 'bg-cyan-600 hover:bg-cyan-700 text-white'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
             >
