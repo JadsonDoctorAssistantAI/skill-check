@@ -35,7 +35,7 @@ export function EvaluationForm({
 }: EvaluationFormProps) {
   const renderRatingButtons = (questionId: string) => {
     return (
-      <div className="flex gap-4 justify-center">
+      <div className="flex gap-4 justify-between w-full max-w-lg mx-auto">
         {[1, 2, 3, 4, 5].map((rating) => (
           <button
             key={rating}
@@ -77,8 +77,13 @@ export function EvaluationForm({
             {currentCategory.questions.map((question) => (
               <div key={question.id} className="space-y-4">
                 <p className="text-lg text-gray-700">{question.label}</p>
-                {renderRatingButtons(question.id)}
+                <div className="flex items-center gap-4 justify-between">
+                  <span className="text-xs text-gray-400">Discordo totalmente</span>
+                  {renderRatingButtons(question.id)}
+                  <span className="text-xs text-gray-400">Concordo totalmente</span>
+                </div>
               </div>
+
             ))}
           </div>
 
